@@ -253,38 +253,12 @@
                 <input type="text" id="aUser" placeholder="Username">
                 <input type="password" id="aPass" placeholder="Password">
                 <button onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
-                <p style="font-size:10px;color:var(--text-light);margin-top:8px">Demo: admin / admin123</p>
             </div>
         </div>
         <div id="aDash" style="display:none">
             <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
-            <div class="a-stats">
-                <div class="a-stat"><h4>50,247</h4><p>Subscribers</p></div>
-                <div class="a-stat"><h4>1.2L+</h4><p>Total Views</p></div>
-                <div class="a-stat"><h4>156</h4><p>Videos</p></div>
-            </div>
-            <h3 style="font-size:15px;margin-bottom:4px"><i class="fas fa-upload" style="color:var(--primary)"></i> Upload Video</h3>
-            <div class="a-form">
-                <div class="row">
-                    <div><label>Video Title</label><input type="text" placeholder="Enter title"></div>
-                    <div><label>Category</label><select><option>Cooking</option><option>Travel</option><option>Traditional</option><option>Technology</option></select></div>
-                </div>
-                <label>Description</label><textarea placeholder="Video description..."></textarea>
-                <div class="row">
-                    <div><label>YouTube URL</label><input type="url" placeholder="https://youtube.com/..."></div>
-                    <div><label>Thumbnail</label><input type="file" accept="image/*"></div>
-                </div>
-                <button class="submit" onclick="alert('Video uploaded!')"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
-            </div>
-            <h3 style="font-size:15px;margin:22px 0 4px"><i class="fas fa-pen" style="color:var(--primary)"></i> Write Blog Post</h3>
-            <div class="a-form">
-                <div class="row">
-                    <div><label>Post Title</label><input type="text" placeholder="Blog title"></div>
-                    <div><label>Category</label><select><option>Cooking</option><option>Travel</option><option>Traditional</option><option>Technology</option></select></div>
-                </div>
-                <label>Content</label><textarea placeholder="Write here..." style="height:120px"></textarea>
-                <button class="submit" onclick="alert('Published!')"><i class="fas fa-paper-plane"></i> Publish</button>
-            </div>
+            <p style="font-size:12px;color:var(--text-light);text-align:center;margin:16px 0;">Video &amp; blog-post management is done from the <b>Home page</b> admin panel.
+                <a href="index.html" style="color:var(--primary);font-weight:600;">Go to home page &rarr;</a></p>
             <div style="text-align:center;margin-top:20px">
                 <button class="submit" style="background:#c0392b" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
