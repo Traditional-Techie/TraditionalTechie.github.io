@@ -1,1 +1,0 @@
-# TradinationalTechie.github.io
