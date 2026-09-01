@@ -101,7 +101,7 @@ function uploadVideo() {
 }
 
 function extractYouTubeId(url) {
-    var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    var regExp = /^.*(youtu\.be\/|v\/|shorts\/|live\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     var match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
 }
