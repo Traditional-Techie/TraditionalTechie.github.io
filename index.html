@@ -11,7 +11,13 @@
 </head>
 <body>
 
-<!-- Topbar -->
+<!-- ============================================================================
+     SECTION 1: TOPBAR (the thin bar at the very top with email + social icons)
+     HOW TO EDIT:
+       - Change email: replace "hello@traditionaltechie.com" with your email
+       - Change phone: replace "+91 98765 43210" with your number
+       - Change social links: replace "facebook.com" etc. with your profile URLs
+     ============================================================================ -->
 <div class="topbar">
     <div class="container">
         <div class="topbar-left">
@@ -28,7 +34,13 @@
     </div>
 </div>
 
-<!-- Header -->
+<!-- ============================================================================
+     SECTION 2: HEADER (logo + navigation menu)
+     HOW TO EDIT:
+       - Change site name: replace "Traditional Techie" in the <h1> below
+       - Change tagline: replace "Cooking &bull; Travel &bull; Tradition &bull; Tech"
+       - To add a new page: add <a href="newpage.html">New Page</a> inside <nav>
+     ============================================================================ -->
 <header class="header">
     <div class="container">
         <a href="index.html" class="logo">
@@ -51,7 +63,13 @@
     </div>
 </header>
 
-<!-- Hero -->
+<!-- ============================================================================
+     SECTION 3: HERO (main banner at the top of the page)
+     HOW TO EDIT:
+       - Change headline: replace "Where <em>Tradition</em> Meets <em>Technology</em>"
+       - Change description: replace the <p> text
+       - Change category counts: replace "24+ Recipes", "18+ Vlogs" etc.
+     ============================================================================ -->
 <section class="hero" id="home">
     <div class="container">
         <div class="hero-grid">
@@ -90,7 +108,26 @@
     </div>
 </section>
 
-<!-- Videos -->
+<!-- ============================================================================
+     SECTION 4: VIDEOS (your YouTube video cards displayed in a grid)
+     HOW TO ADD A NEW VIDEO:
+       1. Login to admin panel (shield icon, bottom-left)
+       2. Paste YouTube URL in "Upload Video" form, click "Upload Video"
+       3. Click "Get HTML Code" to copy the video card code
+       4. Find "<div class="video-grid">" below
+       5. Paste your copied code RIGHT AFTER that line (before the first <div class="v-card">)
+       6. Save and upload this file to GitHub
+
+     HOW TO DELETE A VIDEO:
+       - Delete the entire <div class="v-card">...</div> block for that video
+       - Save and upload to GitHub
+
+     HOW TO EDIT A VIDEO:
+       - Change the title: edit the text inside <h3><a href="...">...</a></h3>
+       - Change the thumbnail: replace the image URL in <img src="...">
+       - Change the link: replace "youtube.com/watch?v=VIDEO_ID" with your video URL
+       - Change the category tag: edit the text in <span class="v-tag">...</span>
+     ============================================================================ -->
 <section class="videos" id="videos">
     <div class="container">
         <div class="sec-header">
@@ -102,19 +139,24 @@
             <a href="#" class="sec-link">View All <i class="fas fa-arrow-right"></i></a>
         </div>
         <div class="video-grid">
+
+            <!-- YOUR UPLOADED VIDEO (Handloom) - delete this entire block to remove it -->
             <div class="v-card">
                 <a href="https://youtube.com/watch?v=GfvKtRzCh6I" target="_blank" style="display:block;">
                     <div class="v-thumb">
-                        <img src="https://img.youtube.com/vi/GfvKtRzCh6I/mqdefault.jpg" alt="PM Modi and the Handloom Tradition of India | Supporting Indian Weavers 🇮🇳🧵">
+                        <img src="https://img.youtube.com/vi/GfvKtRzCh6I/mqdefault.jpg" alt="PM Modi and the Handloom Tradition of India | Supporting Indian Weavers">
                         <div class="v-play"><i class="fas fa-play"></i></div>
                         <span class="v-tag">Traditional</span>
                     </div>
                 </a>
                 <div class="v-body">
-                    <h3><a href="https://youtube.com/watch?v=GfvKtRzCh6I" target="_blank">PM Modi and the Handloom Tradition of India | Supporting Indian Weavers 🇮🇳🧵</a></h3>
+                    <h3><a href="https://youtube.com/watch?v=GfvKtRzCh6I" target="_blank">PM Modi and the Handloom Tradition of India | Supporting Indian Weavers</a></h3>
                     <div class="v-meta"><span><i class="fas fa-eye"></i> 0</span><span>Sep 1, 2026</span></div>
                 </div>
             </div>
+
+            <!-- DEMO VIDEOS BELOW (delete these blocks to remove them) -->
+
             <div class="v-card">
                 <div class="v-thumb">
                     <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&h=340&fit=crop" alt="Sambar Recipe">
@@ -127,6 +169,7 @@
                     <div class="v-meta"><span><i class="fas fa-eye"></i> 12.5K</span><span>2 days ago</span></div>
                 </div>
             </div>
+
             <div class="v-card">
                 <div class="v-thumb">
                     <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=340&fit=crop" alt="Temple Visit">
@@ -139,6 +182,7 @@
                     <div class="v-meta"><span><i class="fas fa-eye"></i> 8.3K</span><span>5 days ago</span></div>
                 </div>
             </div>
+
             <div class="v-card">
                 <div class="v-thumb">
                     <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=340&fit=crop" alt="Kolam Design">
@@ -151,6 +195,7 @@
                     <div class="v-meta"><span><i class="fas fa-eye"></i> 24.1K</span><span>1 week ago</span></div>
                 </div>
             </div>
+
             <div class="v-card">
                 <div class="v-thumb">
                     <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=340&fit=crop" alt="Tech Review">
@@ -163,6 +208,7 @@
                     <div class="v-meta"><span><i class="fas fa-eye"></i> 15.7K</span><span>3 days ago</span></div>
                 </div>
             </div>
+
             <div class="v-card">
                 <div class="v-thumb">
                     <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600&h=340&fit=crop" alt="Breakfast Recipe">
@@ -171,10 +217,11 @@
                     <span class="v-dur">10:07</span>
                 </div>
                 <div class="v-body">
-                    <h3><a href="#">5 Quick & Healthy Breakfast Recipes for Busy Mornings</a></h3>
+                    <h3><a href="#">5 Quick &amp; Healthy Breakfast Recipes for Busy Mornings</a></h3>
                     <div class="v-meta"><span><i class="fas fa-eye"></i> 9.8K</span><span>1 week ago</span></div>
                 </div>
             </div>
+
             <div class="v-card">
                 <div class="v-thumb">
                     <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=600&h=340&fit=crop" alt="Pilgrimage Journey">
@@ -187,11 +234,18 @@
                     <div class="v-meta"><span><i class="fas fa-eye"></i> 6.2K</span><span>2 weeks ago</span></div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
 
-<!-- Categories -->
+<!-- ============================================================================
+     SECTION 5: CATEGORIES (the 4 category cards)
+     HOW TO EDIT:
+       - Change name: replace "Cooking", "Travel" etc.
+       - Change count: replace "24 Videos", "18 Videos" etc.
+       - Change image: replace the <img src="..."> URL
+     ============================================================================ -->
 <section class="cats" id="categories">
     <div class="container">
         <div class="sec-header">
@@ -221,7 +275,27 @@
     </div>
 </section>
 
-<!-- Blog -->
+<!-- ============================================================================
+     SECTION 6: BLOG (your blog post cards displayed in a grid)
+     HOW TO ADD A NEW BLOG POST:
+       1. Login to admin panel (shield icon, bottom-left)
+       2. Fill in title, category, content in "Write Blog Post" form
+       3. Click "Publish Post" then click "Get HTML Code"
+       4. Find "<div class="blog-grid">" below
+       5. Paste your copied code RIGHT AFTER that line (before the first <div class="b-card">)
+       6. Save and upload this file to GitHub
+
+     HOW TO DELETE A BLOG POST:
+       - Delete the entire <div class="b-card">...</div> block for that post
+       - Save and upload to GitHub
+
+     HOW TO EDIT A BLOG POST:
+       - Change title: edit text inside <h3><a href="#">...</a></h3>
+       - Change description: edit text inside <p>...</p>
+       - Change date: edit text inside <div class="b-foot"><span>...</span>
+       - Change image: replace the <img src="..."> URL
+       - Change category tag: edit <span class="b-tag">...</span>
+     ============================================================================ -->
 <section class="blog" id="blog">
     <div class="container">
         <div class="sec-header">
@@ -270,7 +344,14 @@
     </div>
 </section>
 
-<!-- About Preview -->
+<!-- ============================================================================
+     SECTION 7: ABOUT PREVIEW (profile photo + short bio on homepage)
+     HOW TO EDIT:
+       - Change photo: replace "images/profile.jpg" with your image path
+       - Change subscriber count: replace "50K+" with your real number
+       - Change bio text: replace the <p> paragraphs
+       - Change feature list: replace "Authentic Recipes" etc.
+     ============================================================================ -->
 <section class="about" id="about">
     <div class="container">
         <div class="about-grid">
@@ -299,7 +380,11 @@
     </div>
 </section>
 
-<!-- Subscribe -->
+<!-- ============================================================================
+     SECTION 8: SUBSCRIBE (email signup form)
+     NOTE: This is a demo form. No real email service is connected.
+     To make it work you need to connect an email service (Mailchimp, etc.)
+     ============================================================================ -->
 <section class="subscribe">
     <div class="container">
         <h2><i class="fas fa-bell"></i> Stay Updated</h2>
@@ -311,7 +396,12 @@
     </div>
 </section>
 
-<!-- Like + Share -->
+<!-- ============================================================================
+     SECTION 9: LIKE + SHARE (social sharing buttons)
+     HOW TO EDIT:
+       - Replace "URL" in share links with your actual page URL
+         Example: https://traditional-techie.github.io/TraditionalTechie.github.io/
+     ============================================================================ -->
 <section class="engage">
     <div class="container">
         <div class="engage-inner">
@@ -327,7 +417,15 @@
     </div>
 </section>
 
-<!-- Footer -->
+<!-- ============================================================================
+     SECTION 10: FOOTER (bottom of page - links, social, copyright)
+     HOW TO EDIT:
+       - Change description text in the first <p>
+       - Change social links: replace "facebook.com" etc. with your profile URLs
+       - Change "Quick Links": replace href="index.html" etc. with your pages
+       - Change copyright year: replace "2026" with current year
+       - Change "Recent Posts": replace title, date, and image URL
+     ============================================================================ -->
 <footer class="footer" id="contact">
     <div class="container">
         <div class="foot-grid">
@@ -385,7 +483,13 @@
     </div>
 </footer>
 
-<!-- Floating Social -->
+<!-- ============================================================================
+     SECTION 11: FLOATING SOCIAL (small social icons on the left side of page)
+     HOW TO EDIT:
+       - Replace "facebook.com" etc. with your actual profile URLs
+       - To REMOVE: delete the entire <div class="float-social"> block below
+       - To ADD a new icon: copy one <a> line and change icon + URL
+     ============================================================================ -->
 <div class="float-social">
     <a href="https://facebook.com" target="_blank" style="background:#3b5998" title="Facebook"><i class="fab fa-facebook-f"></i></a>
     <a href="https://instagram.com" target="_blank" style="background:linear-gradient(45deg,#f09433,#dc2743,#bc1888)" title="Instagram"><i class="fab fa-instagram"></i></a>
@@ -395,16 +499,35 @@
     <a href="https://telegram.org" target="_blank" style="background:#0088cc" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
 </div>
 
-<!-- Admin Button -->
+<!-- ============================================================================
+     ADMIN GEAR BUTTON (floating shield icon, bottom-left corner)
+     This opens the admin login panel. DO NOT DELETE unless you want no admin.
+     Password is managed in js/scripts.js (search for "ADMIN_USER" and "ADMIN_PASS")
+     ============================================================================ -->
 <button class="admin-btn" onclick="openAdmin()" title="Admin Panel"><i class="fas fa-user-shield"></i></button>
 
-<!-- Back to Top -->
+<!-- Back to Top button (appears when you scroll down) -->
 <button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
 
-<!-- Admin Overlay -->
+<!-- ============================================================================
+     SECTION 12: ADMIN OVERLAY (login + dashboard panel)
+     HOW IT WORKS:
+       1. Click the shield icon to open this panel
+       2. Login with your admin credentials
+       3. Use "Upload Video" to add YouTube videos to your browser
+       4. Use "Write Blog Post" to write blog posts
+       5. After uploading, click "Get HTML Code" to get the code
+       6. Paste that code into the correct section above (Videos or Blog)
+       7. Upload this index.html to GitHub to make it live
+
+     TO CHANGE PASSWORD:
+       Open js/scripts.js and edit the lines with "ADMIN_USER" and "ADMIN_PASS"
+     ============================================================================ -->
 <div class="admin-overlay" id="adminOv">
     <div class="admin-box">
         <button class="x" onclick="closeAdmin()"><i class="fas fa-times"></i></button>
+
+        <!-- Login form (hidden after successful login) -->
         <div id="aLogin">
             <h2><i class="fas fa-user-shield"></i> Admin Login</h2>
             <div class="login-box">
@@ -413,6 +536,8 @@
                 <button onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
             </div>
         </div>
+
+        <!-- Dashboard (shown after login) -->
         <div id="aDash" style="display:none">
             <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
             <div class="a-stats">
@@ -421,6 +546,9 @@
                 <div class="a-stat"><h4 id="vidCount">0</h4><p>Videos</p></div>
             </div>
 
+            <!-- VIDEO UPLOAD SECTION -->
+            <!-- Paste YouTube URL, click Upload Video, then Get HTML Code -->
+            <!-- The code must be pasted into the "Videos" section above -->
             <h3 style="font-size:15px;margin-bottom:4px"><i class="fas fa-upload" style="color:var(--primary)"></i> Upload Video</h3>
             <p style="font-size:11px;color:var(--text-light);margin-bottom:10px;">Paste your YouTube video link below. Thumbnail is auto-generated.</p>
             <div class="a-form">
@@ -436,10 +564,14 @@
                 </div>
             </div>
 
+            <!-- UPLOADED VIDEOS LIST (shows saved videos, click to play) -->
             <h3 style="font-size:15px;margin:20px 0 8px"><i class="fas fa-list" style="color:var(--primary)"></i> Uploaded Videos</h3>
             <div id="uploadedList"></div>
             <textarea id="exportCode" style="display:none;width:100%;height:150px;margin-top:10px;font-size:11px;padding:10px;border:1px solid var(--border);border-radius:6px;font-family:monospace;" readonly></textarea>
 
+            <!-- BLOG POST SECTION -->
+            <!-- Write your post, click Publish Post, then Get HTML Code -->
+            <!-- The code must be pasted into the "Blog" section above -->
             <h3 style="font-size:15px;margin:22px 0 4px"><i class="fas fa-pen" style="color:var(--primary)"></i> Write Blog Post</h3>
             <div class="a-form">
                 <div class="row">
@@ -452,6 +584,8 @@
                     <button class="submit" style="background:var(--accent);color:var(--primary-dark);" onclick="exportPosts()"><i class="fas fa-code"></i> Get HTML Code</button>
                 </div>
             </div>
+
+            <!-- UPLOADED BLOG POSTS LIST -->
             <div id="blogList" style="margin-top:10px;"></div>
 
             <div style="text-align:center;margin-top:20px;padding-top:15px;border-top:1px solid var(--border);">
@@ -461,6 +595,7 @@
     </div>
 </div>
 
+<!-- This loads your JavaScript (admin login, video upload, blog, etc.) -->
 <script src="js/scripts.js"></script>
 </body>
 </html>
