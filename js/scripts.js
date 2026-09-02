@@ -95,9 +95,10 @@ function uploadVideo() {
     if (desc) desc.value = '';
     if (url) url.value = '';
 
-    alert('Video uploaded successfully!\n\nTitle: ' + video.title + '\nCategory: ' + video.category + '\n\nIt will appear on your page when you add the code.');
+    alert('Video saved on THIS browser!\n\nYour video is now in "Uploaded Videos" below — click its picture or title to play it.\n\nTo show it on your website for ALL visitors:\n1. Click "Get HTML Code"\n2. Paste the copied code into your index.html\n3. Upload index.html to GitHub');
 
     loadUploadedVideos();
+    renderMyVideos();
 }
 
 function extractYouTubeId(url) {
@@ -130,10 +131,10 @@ function loadUploadedVideos() {
     var html = '';
     videos.forEach(function (v, i) {
         html += '<div style="display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;">';
-        html += '<img src="' + v.thumbnail + '" style="width:80px;height:45px;object-fit:cover;border-radius:4px;" alt="">';
+        html += '<a href="https://youtube.com/watch?v=' + v.videoId + '" target="_blank" title="Click to play"><img src="' + v.thumbnail + '" style="width:80px;height:45px;object-fit:cover;border-radius:4px;" alt=""></a>';
         html += '<div style="flex:1;">';
-        html += '<h4 style="font-size:12px;font-weight:600;color:var(--title);margin-bottom:2px;">' + v.title + '</h4>';
-        html += '<span style="font-size:10px;color:var(--text-light);">' + v.category + ' | ' + v.date + '</span>';
+        html += '<a href="https://youtube.com/watch?v=' + v.videoId + '" target="_blank" title="Click to play" style="color:var(--title);text-decoration:none;"><h4 style="font-size:12px;font-weight:600;color:var(--title);margin-bottom:2px;">' + v.title + '</h4></a>';
+        html += '<span style="font-size:10px;color:var(--text-light);">' + v.category + ' | ' + v.date + ' | <a href="https://youtube.com/watch?v=' + v.videoId + '" target="_blank" style="color:var(--primary);">Play &#9654;</a></span>';
         html += '</div>';
         html += '<button onclick="deleteVideo(' + i + ')" style="background:#c0392b;color:white;border:none;padding:4px 10px;border-radius:4px;font-size:10px;cursor:pointer;">Delete</button>';
         html += '</div>';
@@ -147,20 +148,23 @@ function deleteVideo(index) {
     videos.splice(index, 1);
     localStorage.setItem('tt_videos', JSON.stringify(videos));
     loadUploadedVideos();
+    renderMyVideos();
 }
 
 function exportVideos() {
     var videos = getUploadedVideos();
     if (videos.length === 0) { alert('No videos to export'); return; }
 
-    var html = '<!-- PASTE THIS IN index.html where videos section is -->\n';
+    var html = '<!-- PASTE THIS IN index.html inside the video-grid div -->\n';
     videos.forEach(function (v) {
         html += '<div class="v-card">\n';
-        html += '    <div class="v-thumb">\n';
-        html += '        <img src="' + v.thumbnail + '" alt="' + v.title + '">\n';
-        html += '        <div class="v-play"><i class="fas fa-play"></i></div>\n';
-        html += '        <span class="v-tag">' + v.category + '</span>\n';
-        html += '    </div>\n';
+        html += '    <a href="https://youtube.com/watch?v=' + v.videoId + '" target="_blank" style="display:block;">\n';
+        html += '        <div class="v-thumb">\n';
+        html += '            <img src="' + v.thumbnail + '" alt="' + v.title + '">\n';
+        html += '            <div class="v-play"><i class="fas fa-play"></i></div>\n';
+        html += '            <span class="v-tag">' + v.category + '</span>\n';
+        html += '        </div>\n';
+        html += '    </a>\n';
         html += '    <div class="v-body">\n';
         html += '        <h3><a href="https://youtube.com/watch?v=' + v.videoId + '" target="_blank">' + v.title + '</a></h3>\n';
         html += '        <div class="v-meta"><span><i class="fas fa-eye"></i> ' + v.views + '</span><span>' + v.date + '</span></div>\n';
@@ -208,7 +212,7 @@ function uploadBlog() {
     title.value = '';
     if (content) content.value = '';
 
-    alert('Blog post published!\n\nTitle: ' + post.title);
+    alert('Blog post saved on THIS browser!\n\nIt appears in the list below. To show it on your website for ALL visitors:\n1. Click "Get HTML Code"\n2. Paste the copied code into your index.html\n3. Upload index.html to GitHub');
     loadUploadedPosts();
 }
 
@@ -232,10 +236,12 @@ function loadUploadedPosts() {
 
     var html = '';
     posts.forEach(function (p, i) {
+        var snippet = p.content.length > 90 ? p.content.substring(0, 90) + '...' : p.content;
         html += '<div style="padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;">';
         html += '<div style="display:flex;justify-content:space-between;align-items:start;">';
         html += '<div><h4 style="font-size:12px;font-weight:600;color:var(--title);margin-bottom:2px;">' + p.title + '</h4>';
-        html += '<span style="font-size:10px;color:var(--text-light);">' + p.category + ' | ' + p.date + '</span></div>';
+        html += '<span style="font-size:10px;color:var(--text-light);">' + p.category + ' | ' + p.date + '</span>';
+        html += '<p style="font-size:11px;color:var(--text-light);margin-top:4px;">' + snippet + '</p></div>';
         html += '<button onclick="deletePost(' + i + ')" style="background:#c0392b;color:white;border:none;padding:4px 10px;border-radius:4px;font-size:10px;cursor:pointer;">Delete</button>';
         html += '</div></div>';
     });
@@ -249,6 +255,74 @@ function deletePost(index) {
     localStorage.setItem('tt_posts', JSON.stringify(posts));
     loadUploadedPosts();
 }
+
+function exportPosts() {
+    var posts = getUploadedPosts();
+    if (posts.length === 0) { alert('No posts to export'); return; }
+
+    var html = '<!-- PASTE THIS IN index.html inside the blog-grid div -->\n';
+    posts.forEach(function (p) {
+        html += '<div class="b-card">\n';
+        html += '    <div class="b-thumb">\n';
+        html += '        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=250&fit=crop" alt="' + p.title + '">\n';
+        html += '        <span class="b-tag">' + p.category + '</span>\n';
+        html += '    </div>\n';
+        html += '    <div class="b-body">\n';
+        html += '        <h3><a href="#">' + p.title + '</a></h3>\n';
+        html += '        <p>' + p.content + '</p>\n';
+        html += '        <div class="b-foot"><span>' + p.date + '</span></div>\n';
+        html += '    </div>\n';
+        html += '</div>\n\n';
+    });
+
+    navigator.clipboard.writeText(html).then(function () {
+        alert('HTML code copied to clipboard!\n\nPaste it in your index.html file inside the blog-grid div.');
+    }).catch(function () {
+        var ta = document.getElementById('exportCode');
+        if (ta) {
+            ta.value = html;
+            ta.style.display = 'block';
+            ta.select();
+            alert('Select all the code below and copy it (Ctrl+C), then paste in index.html');
+        }
+    });
+}
+
+// ==============================
+// MY UPLOADED VIDEOS PREVIEW (this browser only)
+// ==============================
+function renderMyVideos() {
+    var old = document.getElementById('myVideoPreviews');
+    if (old) old.parentNode.removeChild(old);
+
+    var grid = document.querySelector('.video-grid');
+    if (!grid) return;
+
+    var videos = getUploadedVideos();
+    if (videos.length === 0) return;
+
+    var wrap = document.createElement('div');
+    wrap.id = 'myVideoPreviews';
+    wrap.style.cssText = 'margin-top:32px;';
+
+    var head = '<h2 style="text-align:center;font-size:20px;color:var(--title);margin-bottom:4px;">Your Uploaded Videos</h2>';
+    head += '<p style="text-align:center;font-size:12px;color:var(--text-light);margin-bottom:18px;">Preview (only you see this). To publish for everyone: admin panel &gt; Get HTML Code &gt; paste into index.html.</p>';
+
+    var rows = '';
+    videos.forEach(function (v) {
+        rows += '<div style="margin:0 auto 26px;max-width:560px;">';
+        rows += '<div style="position:relative;padding-top:56.25%;">';
+        rows += '<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" src="https://www.youtube.com/embed/' + v.videoId + '?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        rows += '</div>';
+        rows += '<h3 style="font-size:14px;color:var(--title);margin-top:8px;font-weight:600;">' + v.title + '</h3>';
+        rows += '</div>';
+    });
+
+    wrap.innerHTML = head + rows;
+    grid.parentNode.insertBefore(wrap, grid.nextSibling);
+}
+
+document.addEventListener('DOMContentLoaded', renderMyVideos);
 
 // ==============================
 // SCROLL & NAV
