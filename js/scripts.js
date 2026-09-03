@@ -2,6 +2,28 @@
    Traditional Techie - scripts.js
    ============================================ */
 
+// ==============================
+// EMAILJS SETUP  (for auto-sending emails)
+// ==============================
+// To activate auto-emails (subscribe welcome + contact thank-you):
+//   1. Create a FREE account at https://www.emailjs.com
+//   2. Connect your Gmail (techietraditional@gmail.com) as an Email Service
+//   3. Create 2 templates: one for "subscribe", one for "contact"
+//   4. Fill in the 3 values below:
+//      - EMAILJS_PUBLIC_KEY   (Account > General > Public Key)
+//      - EMAILJS_SERVICE_ID   (Email Services > your service ID, like service_xxxxx)
+//      - EMAILJS_TEMPLATE_SUBSCRIBE  (the subscribe template ID)
+//      - EMAILJS_TEMPLATE_CONTACT    (the contact template ID)
+//   5. Make sure the EmailJS SDK script is loaded (it is added in each HTML page)
+var EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY_HERE';
+var EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID_HERE';
+var EMAILJS_TEMPLATE_SUBSCRIBE = 'YOUR_SUBSCRIBE_TEMPLATE_ID_HERE';
+var EMAILJS_TEMPLATE_CONTACT = 'YOUR_CONTACT_TEMPLATE_ID_HERE';
+
+if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY.indexOf('YOUR_') === -1) {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+}
+
 // Like Button
 function toggleLike() {
     var b = document.getElementById('likeBtn');
@@ -350,8 +372,7 @@ document.addEventListener('DOMContentLoaded', renderMyVideos);
 
 // ==============================
 // SCROLL & NAV
-// ==============================
-window.addEventListener('scroll', function () {
+// ==============================window.addEventListener('scroll', function () {
     var btt = document.getElementById('btt');
     if (btt) {
         btt.classList.toggle('show', window.scrollY > 400);
@@ -395,8 +416,87 @@ function toggleNav() {
 
 function handleSubscribe(e) {
     e.preventDefault();
-    alert('Thanks for subscribing!');
-    e.target.reset();
+    var form = e.target;
+    var emailInput = form.querySelector('input[type="email"]');
+    var email = emailInput ? emailInput.value.trim() : '';
+
+    if (!email) { alert('Please enter your email address.'); return; }
+
+    // Send "Thank you for subscribing" email to the visitor via EmailJS
+    var statusEl = form.querySelector('.sub-status');
+    if (!statusEl) {
+        statusEl = document.createElement('p');
+        statusEl.className = 'sub-status';
+        statusEl.style.cssText = 'margin-top:8px;font-size:13px;color:var(--primary);';
+        form.appendChild(statusEl);
+    }
+    statusEl.textContent = 'Sending...';
+
+    var params = {
+        to_email: email,
+        from_name: 'Traditional Techie',
+        to_name: email
+    };
+
+    var showResult = function (ok) {
+        if (ok) {
+            statusEl.textContent = 'Thank you for subscribing! A confirmation email has been sent to ' + email + '.';
+            form.reset();
+        } else {
+            statusEl.textContent = 'Could not send right now. Please try again or contact us on WhatsApp.';
+        }
+    };
+
+    try {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_SUBSCRIBE, params)
+            .then(function () { showResult(true); })
+            .catch(function () { showResult(false); });
+    } catch (err) {
+        alert('Subscribe: ' + email + ' (Set up EmailJS to auto-send the welcome email)');
+        form.reset();
+    }
+}
+
+// Send a Message form (contact page)
+function handleContact(e) {
+    e.preventDefault();
+    var form = e.target;
+    var name = (document.getElementById('cName') || {}).value || '';
+    var visitorEmail = (document.getElementById('cEmail') || {}).value || '';
+    var subject = (document.getElementById('cSubject') || {}).value || '';
+    var message = (document.getElementById('cMessage') || {}).value || '';
+    var statusEl = document.getElementById('contactStatus');
+    if (statusEl) statusEl.textContent = 'Sending...';
+
+    var params = {
+        from_name: name,
+        reply_to: visitorEmail,
+        to_email: visitorEmail,
+        subject: subject,
+        message: message,
+        site: 'Traditional Techie'
+    };
+
+    var showResult = function (ok) {
+        if (!statusEl) return;
+        if (ok) {
+            statusEl.textContent = 'Message sent! Thank you for reaching out. You will get a reply soon.';
+            form.reset();
+        } else {
+            statusEl.textContent = 'Could not send right now. Please try again or WhatsApp us directly.';
+        }
+    };
+
+    try {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CONTACT, params)
+            .then(function () { showResult(true); })
+            .catch(function () { showResult(false); });
+    } catch (err) {
+        if (statusEl) {
+            statusEl.textContent = 'Message from ' + name + ' (' + visitorEmail + '): ' + subject + ' - ' + message;
+        }
+        form.reset();
+    }
 }
 
 function copyLink() {
@@ -409,4 +509,85 @@ if (adminOv) {
     adminOv.addEventListener('click', function (e) {
         if (e.target === this) closeAdmin();
     });
+}
+
+// ==============================
+// CATEGORY FILTER (for the home page category cards)
+// ==============================
+function filterCategory(cat) {
+    var cards = document.querySelectorAll('.video-grid .v-card');
+    var count = 0;
+    cards.forEach(function (card) {
+        var tag = card.querySelector('.v-tag');
+        var tagText = tag ? tag.textContent.trim().toLowerCase() : '';
+        var match = !cat || tagText === cat.toLowerCase();
+        card.style.display = match ? '' : 'none';
+        if (match) count++;
+    });
+
+    var header = document.getElementById('videoCatTitle');
+    if (header) header.textContent = cat || 'Latest Videos';
+
+    var msg = document.getElementById('videoFilterMsg');
+    if (msg) {
+        if (count === 0) { msg.style.display = 'block'; }
+        else { msg.style.display = 'none'; }
+    }
+
+    var videos = document.getElementById('videos');
+    if (videos) videos.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function attachCategoryFilters() {
+    // Hero category cards (Section 3)
+    document.querySelectorAll('.hero-card').forEach(function (card) {
+        card.addEventListener('click', function (e) {
+            e.preventDefault();
+            var cat = this.getAttribute('data-cat');
+            filterCategory(cat);
+        });
+    });
+    // Explore Categories cards (Section 5)
+    document.querySelectorAll('.cat-item').forEach(function (item) {
+        item.addEventListener('click', function () {
+            var cat = this.querySelector('.ov h3');
+            if (cat) filterCategory(cat.textContent);
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', attachCategoryFilters);
+
+// ==============================
+// PROJECT DETAILS MODAL
+// ==============================
+function showProjectDetails(btn, title, desc, videoUrl) {
+    var overlay = document.getElementById('projModal');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'projModal';
+        overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;';
+        overlay.innerHTML =
+            '<div style="background:var(--white,#fff);border-radius:12px;max-width:520px;width:100%;padding:28px;position:relative;color:var(--title,#333);">' +
+            '<button onclick="closeProjectDetails()" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:#999;">&times;</button>' +
+            '<h3 id="projTitle" style="font-size:20px;font-weight:700;color:var(--primary,#8B1A1A);margin-bottom:12px;"></h3>' +
+            '<p id="projDesc" style="font-size:14px;line-height:1.6;color:#555;margin-bottom:20px;"></p>' +
+            '<a id="projWatch" href="#" target="_blank" style="display:inline-block;background:var(--primary,#8B1A1A);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:14px;">' +
+            '<i class="fas fa-play"></i> Watch Video</a>' +
+            '</div>';
+        document.body.appendChild(overlay);
+        overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) closeProjectDetails();
+        });
+    }
+    document.getElementById('projTitle').textContent = title;
+    document.getElementById('projDesc').textContent = desc;
+    var watch = document.getElementById('projWatch');
+    watch.setAttribute('href', videoUrl || '#');
+    overlay.style.display = 'flex';
+}
+
+function closeProjectDetails() {
+    var overlay = document.getElementById('projModal');
+    if (overlay) overlay.style.display = 'none';
 }
