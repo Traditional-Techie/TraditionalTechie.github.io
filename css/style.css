@@ -112,7 +112,7 @@ img { max-width:100%; display:block; }
 
 /* ===== CATEGORIES ===== */
 .cats { padding:55px 0; background:var(--white); }
-.cat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.cat-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:18px; }
 .cat-item { position:relative; border-radius:var(--radius-lg); overflow:hidden; height:200px; cursor:pointer; }
 .cat-item img { width:100%; height:100%; object-fit:cover; transition:transform .5s; }
 .cat-item:hover img { transform:scale(1.08); }
@@ -281,6 +281,19 @@ img { max-width:100%; display:block; }
 .login-box input { display:block; width:100%; max-width:280px; margin:8px auto; padding:10px 14px; border:1px solid var(--border); border-radius:6px; font-family:inherit; text-align:center; font-size:13px; }
 .login-box button { margin-top:10px; padding:10px 28px; background:var(--primary); color:var(--white); border:none; border-radius:6px; font-weight:700; cursor:pointer; font-family:inherit; }
 
+/* ===== FEATURED POSTS ===== */
+.featured-posts { padding:50px 0; background:var(--bg); }
+.featured-card { background:var(--white); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-md); margin-bottom:28px; }
+.featured-banner { display:block; overflow:hidden; }
+.featured-banner img { width:100%; height:320px; object-fit:cover; transition:transform .4s; }
+.featured-card:hover .featured-banner img { transform:scale(1.03); }
+.featured-body { padding:22px 28px 26px; }
+.featured-tag { display:inline-block; background:var(--accent); color:var(--primary-dark); font-size:11px; font-weight:700; padding:4px 12px; border-radius:20px; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px; }
+.featured-body h3 { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:var(--title); margin-bottom:10px; line-height:1.35; }
+.featured-body h3 a:hover { color:var(--primary); }
+.featured-body p { font-size:14px; color:var(--text); line-height:1.7; margin-bottom:16px; }
+.featured-body .btn { font-size:13px; padding:10px 22px; }
+
 /* ===== RESPONSIVE ===== */
 @media(max-width:1024px) {
     .hero-grid { grid-template-columns:1fr; }
@@ -310,4 +323,7 @@ img { max-width:100%; display:block; }
     .sub-form input, .sub-form button { border-radius:8px; }
     .a-stats, .a-form .row, .form-row { grid-template-columns:1fr; }
     .about-img-wrap { display:none; }
+    .featured-banner img { height:200px; }
+    .featured-body { padding:16px 18px 20px; }
+    .featured-body h3 { font-size:17px; }
 }
