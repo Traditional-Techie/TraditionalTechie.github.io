@@ -15,16 +15,29 @@ function toggleLike() {
 }
 
 // ==============================
-// ADMIN PANEL
+// ADMIN PANEL (password stored as unreadable hash)
 // ==============================
-// DEFAULT LOGIN: admin / admin123
-// TO CHANGE: edit the numbers below (ASCII codes).
-//   Format: String.fromCharCode(97,100,109,105,110)  => "admin"
-//   ASCII cheat: a=97 b=98 c=99 ... m=109 n=110 o=111 p=112
-//    1=49 2=50 3=51 4=52 5=53 6=54
-//   Example "myname123" => (109,121,110,97,109,101,49,50,51)
-var ADMIN_USER = String.fromCharCode(97,100,109,105,110);      // admin
-var ADMIN_PASS = String.fromCharCode(97,100,109,105,110,49,50,51); // admin123
+// The login check hashes what you type and compares it to the stored
+// hashes below. The real credentials are NEVER stored in this file,
+// so even if someone reads the code they cannot recover the password.
+//
+// TO CHANGE PASSWORD/USERNAME:
+//   1. Generate a SHA-256 hash of your new value (many free online tools)
+//   2. Replace the 64-character lowercase hex hash below
+//   (The hashes are all stored/lowercased consistently so they match.)
+function sha256hex(str) {
+    var buffer = new TextEncoder().encode(str);
+    return crypto.subtle.digest('SHA-256', buffer).then(function (buf) {
+        var a = new Uint8Array(buf);
+        var h = '';
+        for (var i = 0; i < a.length; i++) {
+            h += a[i].toString(16).padStart(2, '0');
+        }
+        return h;
+    });
+}
+var ADMIN_USER_HASH = 'fa2e4b1381866562e173a46a3b6855b4f68a8e7bef480766d052d19781c2d230';
+var ADMIN_PASS_HASH = 'fa3ae498f6dfe277abfe2c7bfe7119ca732e23c178926028b46f8bc4f51f1b6a';
 
 function openAdmin() {
     document.getElementById('adminOv').classList.add('open');
@@ -37,15 +50,26 @@ function closeAdmin() {
 function doLogin() {
     var user = document.getElementById('aUser');
     var pass = document.getElementById('aPass');
-    if (user && pass && user.value === ADMIN_USER && pass.value === ADMIN_PASS) {
-        document.getElementById('aLogin').style.display = 'none';
-        document.getElementById('aDash').style.display = 'block';
-        loadUploadedVideos();
-    } else {
-        alert('Invalid credentials!');
-        if (user) user.value = '';
-        if (pass) pass.value = '';
-    }
+    if (!user || !pass || !user.value || !pass.value) { alert('Please enter username and password'); return; }
+
+    var uname = user.value;
+    var pword = pass.value;
+
+    Promise.all([sha256hex(uname), sha256hex(pword)]).then(function (hashes) {
+        var userOk = (hashes[0] === ADMIN_USER_HASH);
+        var passOk = (hashes[1] === ADMIN_PASS_HASH);
+        if (userOk && passOk) {
+            document.getElementById('aLogin').style.display = 'none';
+            document.getElementById('aDash').style.display = 'block';
+            loadUploadedVideos();
+        } else {
+            alert('Invalid credentials!');
+            user.value = '';
+            pass.value = '';
+        }
+    }).catch(function () {
+        alert('Login error - please try again');
+    });
 }
 
 function doLogout() {
