@@ -21,8 +21,8 @@
 <div class="topbar">
     <div class="container">
         <div class="topbar-left">
-            <a href="#"><i class="fas fa-envelope" style="margin-right:4px"></i> techietraditional@gmail.com</a>
-            <a href="#"><i class="fas fa-phone" style="margin-right:4px"></i> +91 7981275247</a>
+            <a href="mailto:techietraditional@gmail.com"><i class="fas fa-envelope" style="margin-right:4px"></i> techietraditional@gmail.com</a>
+            <a href="tel:+917981275247"><i class="fas fa-phone" style="margin-right:4px"></i> +91 79812 75247</a>
         </div>
         <div class="topbar-right">
             <a href="https://www.facebook.com/share/1EPSMpXXER"><i class="fab fa-facebook-f"></i></a>
@@ -83,26 +83,26 @@
                 </div>
             </div>
             <div class="hero-right">
-                <div class="hero-card">
+                <a href="#videos" class="hero-card" data-cat="Cooking" title="View Cooking videos">
                     <div class="icon"><i class="fas fa-utensils"></i></div>
                     <h4>Cooking</h4>
                     <span>24+ Recipes</span>
-                </div>
-                <div class="hero-card">
+                </a>
+                <a href="#videos" class="hero-card" data-cat="Travel" title="View Travel videos">
                     <div class="icon"><i class="fas fa-plane"></i></div>
                     <h4>Travel</h4>
                     <span>18+ Vlogs</span>
-                </div>
-                <div class="hero-card">
+                </a>
+                <a href="#videos" class="hero-card" data-cat="Traditional" title="View Traditional videos">
                     <div class="icon"><i class="fas fa-landmark"></i></div>
                     <h4>Tradition</h4>
                     <span>31+ Videos</span>
-                </div>
-                <div class="hero-card">
+                </a>
+                <a href="#videos" class="hero-card" data-cat="Technology" title="View Tech videos">
                     <div class="icon"><i class="fas fa-microchip"></i></div>
                     <h4>Tech</h4>
                     <span>15+ Reviews</span>
-                </div>
+                </a>
             </div>
         </div>
     </div>
@@ -132,12 +132,13 @@
     <div class="container">
         <div class="sec-header">
             <div>
-                <h2><i class="fas fa-play-circle"></i>Latest Videos</h2>
+                <h2><i class="fas fa-play-circle"></i><span id="videoCatTitle">Latest Videos</span></h2>
                 <div class="line"></div>
                 <p>Fresh uploads every week</p>
             </div>
-            <a href="#" class="sec-link">View All <i class="fas fa-arrow-right"></i></a>
+            <a href="#videos" class="sec-link" onclick="filterCategory('')">View All <i class="fas fa-arrow-right"></i></a>
         </div>
+        <p id="videoFilterMsg" style="display:none;color:var(--primary);font-size:12px;margin-bottom:12px;">No videos in this category yet. <a href="#videos" onclick="filterCategory('')" style="color:var(--accent);font-weight:600;">Show all videos</a></p>
         <div class="video-grid">
 
             <!-- YOUR UPLOADED VIDEO (Handloom) - delete this entire block to remove it -->
@@ -516,7 +517,7 @@ Navadurga refers to the nine forms of Goddess Durga, who is one of the most reve
             <button class="like-btn" id="likeBtn" onclick="toggleLike()"><i class="fas fa-heart"></i> Like</button>
             <span class="like-count" id="likeCount">2,458 likes</span>
             <a href="https://www.facebook.com/share/1EPSMpXXER" target="_blank" class="share-pill" style="background:#3b5998"><i class="fab fa-facebook-f"></i> Share</a>
-            <a href="https://wa.me/qr/PFPHX54XP56HK1" target="_blank" class="share-pill" style="background:#25d366"><i class="fab fa-whatsapp"></i> Share</a>
+            <a href="https://wa.me/917981275247" target="_blank" class="share-pill" style="background:#25d366"><i class="fab fa-whatsapp"></i> Share</a>
             <a href="https://twitter.com/intent/tweet?text=Traditional+Techie" target="_blank" class="share-pill" style="background:#1da1f2"><i class="fab fa-x-twitter"></i> Tweet</a>
             <a href="https://pin.it/5eEz7e8Ko" target="_blank" class="share-pill" style="background:#bd081c"><i class="fab fa-pinterest-p"></i> Pin</a>
             <a href="https://t.me/Traditionaltechie" target="_blank" class="share-pill" style="background:#0088cc"><i class="fab fa-telegram-plane"></i> Send</a>
@@ -546,7 +547,7 @@ Navadurga refers to the nine forms of Goddess Durga, who is one of the most reve
                     <a href="https://www.youtube.com/@Traditional_Techie" target="_blank"><i class="fab fa-youtube"></i></a>
                     <a href="https://twitter.com/intent/tweet?text=Check+out+Traditional+Techie" target="_blank"><i class="fab fa-x-twitter"></i></a>
                     <a href="https://pin.it/5eEz7e8Ko" target="_blank"><i class="fab fa-pinterest-p"></i></a>
-                    <a href="https://wa.me/qr/PFPHX54XP56HK1" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://wa.me/917981275247" target="_blank"><i class="fab fa-whatsapp"></i></a>
                     <a href="https://t.me/Traditionaltechie" target="_blank"><i class="fab fa-telegram-plane"></i></a>
                 </div>
             </div>
@@ -602,7 +603,7 @@ Navadurga refers to the nine forms of Goddess Durga, who is one of the most reve
     <a href="https://www.facebook.com/share/1EPSMpXXER" target="_blank" style="background:#3b5998" title="Facebook"><i class="fab fa-facebook-f"></i></a>
     <a href="https://www.instagram.com/traditional_techie?utm_source=qr&igsi=MWVidmgxcXRraDdoNQ==" target="_blank" style="background:linear-gradient(45deg,#f09433,#dc2743,#bc1888)" title="Instagram"><i class="fab fa-instagram"></i></a>
     <a href="https://www.youtube.com/@Traditional_Techie" target="_blank" style="background:#ff0000" title="YouTube"><i class="fab fa-youtube"></i></a>
-    <a href="https://wa.me/qr/PFPHX54XP56HK1" target="_blank" style="background:#25d366" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://wa.me/917981275247" target="_blank" style="background:#25d366" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
     <a href="https://pin.it/5eEz7e8Ko" target="_blank" style="background:#bd081c" title="Pinterest"><i class="fab fa-pinterest-p"></i></a>
     <a href="https://t.me/Traditionaltechie" target="_blank" style="background:#0088cc" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
 </div>
@@ -704,6 +705,7 @@ Navadurga refers to the nine forms of Goddess Durga, who is one of the most reve
 </div>
 
 <!-- This loads your JavaScript (admin login, video upload, blog, etc.) -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="js/scripts.js"></script>
 </body>
 </html>
