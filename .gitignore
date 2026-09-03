@@ -1,0 +1,9 @@
+# Local backups - not part of the live site
+index_backup_before_socialfix.html
+live_index_backup.html
+
+# Local editing notes
+EDITING-GUIDE.md
+
+# Duplicate/local-only images
+images/1profile.png
