@@ -15,10 +15,10 @@
 //      - EMAILJS_TEMPLATE_SUBSCRIBE  (the subscribe template ID)
 //      - EMAILJS_TEMPLATE_CONTACT    (the contact template ID)
 //   5. Make sure the EmailJS SDK script is loaded (it is added in each HTML page)
-var EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY_HERE';
-var EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID_HERE';
-var EMAILJS_TEMPLATE_SUBSCRIBE = 'YOUR_SUBSCRIBE_TEMPLATE_ID_HERE';
-var EMAILJS_TEMPLATE_CONTACT = 'YOUR_CONTACT_TEMPLATE_ID_HERE';
+var EMAILJS_PUBLIC_KEY = 'iNDkIjg_M8F0LpAWO';
+var EMAILJS_SERVICE_ID = 'service_4rj7lbm';
+var EMAILJS_TEMPLATE_SUBSCRIBE = 'template_x0cbaij';
+var EMAILJS_TEMPLATE_CONTACT = 'template_h33xxox';
 
 if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY.indexOf('YOUR_') === -1) {
     emailjs.init(EMAILJS_PUBLIC_KEY);
@@ -431,7 +431,6 @@ function handleSubscribe(e) {
 
     if (!email) { alert('Please enter your email address.'); return; }
 
-    // Send "Thank you for subscribing" email to the visitor via EmailJS
     var statusEl = form.querySelector('.sub-status');
     if (!statusEl) {
         statusEl = document.createElement('p');
@@ -439,7 +438,7 @@ function handleSubscribe(e) {
         statusEl.style.cssText = 'margin-top:8px;font-size:13px;color:var(--primary);';
         form.appendChild(statusEl);
     }
-    statusEl.textContent = 'Sending...';
+    statusEl.textContent = 'Subscribing...';
 
     var params = {
         to_email: email,
@@ -447,39 +446,35 @@ function handleSubscribe(e) {
         to_name: email
     };
 
-    var showResult = function (ok) {
-        // Open the YouTube channel subscribe page so they can also subscribe there
-        var ytUrl = 'https://www.youtube.com/@Traditional_Techie?sub_confirmation=1';
-        if (ok) {
-            statusEl.textContent = 'Thank you for subscribing! Go ahead and also subscribe on YouTube to never miss a video.';
-            var ytLink = form.querySelector('.sub-yt');
-            if (!ytLink) {
-                ytLink = document.createElement('a');
-                ytLink.className = 'sub-yt';
-                ytLink.target = '_blank';
-                ytLink.rel = 'noopener';
-                ytLink.textContent = 'Subscribe on YouTube';
-                ytLink.style.cssText = 'display:inline-block;margin-top:10px;color:var(--primary);font-weight:700;text-decoration:underline;';
-                form.appendChild(ytLink);
-            }
-            ytLink.setAttribute('href', ytUrl);
-            window.open(ytUrl, '_blank');
-            form.reset();
-        } else {
-            statusEl.textContent = 'Could not send right now. Please try again or contact us on WhatsApp.';
-        }
-    };
+    var ytUrl = 'https://www.youtube.com/@Traditional_Techie?sub_confirmation=1';
 
-    try {
+    if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY.indexOf('YOUR_') === -1) {
         emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_SUBSCRIBE, params)
-            .then(function () { showResult(true); })
-            .catch(function () { showResult(false); });
-    } catch (err) {
-        // Even if EmailJS is not yet set up, still send the visitor to the YouTube channel
-        var ytAdd = document.getElementById('subYtFallback');
-        if (ytAdd) ytAdd.style.display = 'block';
-        window.open('https://www.youtube.com/@Traditional_Techie?sub_confirmation=1', '_blank');
-        alert('Subscribe: ' + email + ' (Set up EmailJS to auto-send the welcome email)');
+            .then(function () {
+                statusEl.textContent = 'Thank you for subscribing!';
+                var ytLink = form.querySelector('.sub-yt');
+                if (!ytLink) {
+                    ytLink = document.createElement('a');
+                    ytLink.className = 'sub-yt';
+                    ytLink.target = '_blank';
+                    ytLink.rel = 'noopener';
+                    ytLink.textContent = 'Subscribe on YouTube';
+                    ytLink.style.cssText = 'display:inline-block;margin-top:10px;color:var(--primary);font-weight:700;text-decoration:underline;';
+                    form.appendChild(ytLink);
+                }
+                ytLink.setAttribute('href', ytUrl);
+                window.open(ytUrl, '_blank');
+                form.reset();
+            })
+            .catch(function () {
+                statusEl.textContent = 'Thanks! Also subscribe on YouTube.';
+                window.open(ytUrl, '_blank');
+                form.reset();
+            });
+    } else {
+        // EmailJS not set up yet - still subscribe on YouTube
+        statusEl.textContent = 'Thanks! Redirecting to YouTube...';
+        window.open(ytUrl, '_blank');
         form.reset();
     }
 }
@@ -495,9 +490,6 @@ function handleContact(e) {
     var statusEl = document.getElementById('contactStatus');
     if (statusEl) statusEl.textContent = 'Sending...';
 
-    // IMPORTANT: the CONTACT email is delivered to the site owner.
-    // In your EmailJS contact TEMPLATE, set "To Email" = techietraditional@gmail.com
-    // (the visitor's email below is sent along as the reply-to so you can answer them).
     var params = {
         to_email: 'techietraditional@gmail.com',
         from_name: name,
@@ -507,24 +499,22 @@ function handleContact(e) {
         site: 'Traditional Techie'
     };
 
-    var showResult = function (ok) {
-        if (!statusEl) return;
-        if (ok) {
-            statusEl.textContent = 'Message sent! Thank you for reaching out. You will get a reply soon.';
-            form.reset();
-        } else {
-            statusEl.textContent = 'Could not send right now. Please try again or WhatsApp us directly.';
-        }
-    };
-
-    try {
+    if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY.indexOf('YOUR_') === -1) {
+        // EmailJS is configured - send via EmailJS
         emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CONTACT, params)
-            .then(function () { showResult(true); })
-            .catch(function () { showResult(false); });
-    } catch (err) {
-        if (statusEl) {
-            statusEl.textContent = 'Message from ' + name + ' (' + visitorEmail + '): ' + subject + ' - ' + message;
-        }
+            .then(function () {
+                if (statusEl) statusEl.textContent = 'Message sent! Thank you for reaching out. You will get a reply soon.';
+                form.reset();
+            })
+            .catch(function () {
+                if (statusEl) statusEl.textContent = 'Could not send right now. Please try again or WhatsApp us directly.';
+            });
+    } else {
+        // EmailJS not set up - open Gmail compose with pre-filled message
+        var mailtoBody = 'Name: ' + name + '%0D%0AEmail: ' + visitorEmail + '%0D%0ASubject: ' + subject + '%0D%0A%0D%0A' + message;
+        var mailtoUrl = 'mailto:techietraditional@gmail.com?subject=' + encodeURIComponent('[' + subject + '] from ' + name) + '&body=' + mailtoBody;
+        window.location.href = mailtoUrl;
+        if (statusEl) statusEl.textContent = 'Opening your email app to send the message...';
         form.reset();
     }
 }
