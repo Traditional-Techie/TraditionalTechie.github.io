@@ -16,12 +16,14 @@
 //      - EMAILJS_TEMPLATE_CONTACT    (the contact template ID)
 //   5. Make sure the EmailJS SDK script is loaded (it is added in each HTML page)
 var EMAILJS_PUBLIC_KEY = 'iNDkIjg_M8F0LpAWO';
-var EMAILJS_SERVICE_ID = 'service_4rj7lbm';
+var EMAILJS_SERVICE_ID = 'service_4x8gom7';
 var EMAILJS_TEMPLATE_SUBSCRIBE = 'template_x0cbaij';
 var EMAILJS_TEMPLATE_CONTACT = 'template_h33xxox';
 
 if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY.indexOf('YOUR_') === -1) {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
+    emailjs.init({
+        publicKey: EMAILJS_PUBLIC_KEY
+    });
 }
 
 // Like Button
@@ -449,7 +451,7 @@ function handleSubscribe(e) {
     var ytUrl = 'https://www.youtube.com/@Traditional_Techie?sub_confirmation=1';
 
     if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY.indexOf('YOUR_') === -1) {
-        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_SUBSCRIBE, params)
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_SUBSCRIBE, params, { publicKey: EMAILJS_PUBLIC_KEY })
             .then(function (response) {
                 console.log('Subscribe email sent:', response);
                 statusEl.textContent = 'Thank you for subscribing!';
@@ -503,7 +505,7 @@ function handleContact(e) {
 
     if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY.indexOf('YOUR_') === -1) {
         // EmailJS is configured - send via EmailJS
-        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CONTACT, params)
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CONTACT, params, { publicKey: EMAILJS_PUBLIC_KEY })
             .then(function (response) {
                 console.log('Contact email sent:', response);
                 if (statusEl) statusEl.textContent = 'Message sent! Thank you for reaching out. You will get a reply soon.';
@@ -548,7 +550,8 @@ function filterCategory(cat) {
         'tradition': 'Traditional',
         'tech': 'Technology',
         'cooking': 'Cooking',
-        'travel': 'Travel'
+        'travel': 'Travel',
+        'farmhouse': 'Farmhouse'
     };
     var displayTitle = titleMap[keyword] || cat || 'Latest Videos';
 
@@ -605,7 +608,7 @@ function attachCategoryFilters() {
     var urlCat = new URLSearchParams(window.location.search).get('cat');
     if (urlCat && (urlCat.toLowerCase() === 'cooking' || urlCat.toLowerCase() === 'travel' ||
         urlCat.toLowerCase() === 'traditional' || urlCat.toLowerCase() === 'technology' ||
-        urlCat.toLowerCase() === 'lifestyle')) {
+        urlCat.toLowerCase() === 'farmhouse' || urlCat.toLowerCase() === 'lifestyle')) {
         filterCategory(urlCat);
     }
 }
