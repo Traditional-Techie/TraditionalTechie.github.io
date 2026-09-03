@@ -23,8 +23,8 @@ function toggleLike() {
 //   ASCII cheat: a=97 b=98 c=99 ... m=109 n=110 o=111 p=112
 //    1=49 2=50 3=51 4=52 5=53 6=54
 //   Example "myname123" => (109,121,110,97,109,101,49,50,51)
-var ADMIN_USER = String.fromCharCode(112,117,110,99,104);      // punch
-var ADMIN_PASS = String.fromCharCode(112,117,110,99,104,064,057,048,049); // punch@901
+var ADMIN_USER = String.fromCharCode(97, 100, 109, 105, 110);      // admin
+var ADMIN_PASS = String.fromCharCode(97, 100, 109, 105, 110, 49, 50, 51); // admin123
 
 function openAdmin() {
     document.getElementById('adminOv').classList.add('open');
