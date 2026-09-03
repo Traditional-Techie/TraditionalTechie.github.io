@@ -450,7 +450,8 @@ function handleSubscribe(e) {
 
     if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY.indexOf('YOUR_') === -1) {
         emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_SUBSCRIBE, params)
-            .then(function () {
+            .then(function (response) {
+                console.log('Subscribe email sent:', response);
                 statusEl.textContent = 'Thank you for subscribing!';
                 var ytLink = form.querySelector('.sub-yt');
                 if (!ytLink) {
@@ -466,8 +467,9 @@ function handleSubscribe(e) {
                 window.open(ytUrl, '_blank');
                 form.reset();
             })
-            .catch(function () {
-                statusEl.textContent = 'Thanks! Also subscribe on YouTube.';
+            .catch(function (err) {
+                console.error('Subscribe email error:', err);
+                statusEl.textContent = 'Thanks! Also subscribe on YouTube. (Email error: ' + (err.text || err.message || 'unknown') + ')';
                 window.open(ytUrl, '_blank');
                 form.reset();
             });
@@ -502,12 +504,14 @@ function handleContact(e) {
     if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY.indexOf('YOUR_') === -1) {
         // EmailJS is configured - send via EmailJS
         emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CONTACT, params)
-            .then(function () {
+            .then(function (response) {
+                console.log('Contact email sent:', response);
                 if (statusEl) statusEl.textContent = 'Message sent! Thank you for reaching out. You will get a reply soon.';
                 form.reset();
             })
-            .catch(function () {
-                if (statusEl) statusEl.textContent = 'Could not send right now. Please try again or WhatsApp us directly.';
+            .catch(function (err) {
+                console.error('Contact email error:', err);
+                if (statusEl) statusEl.textContent = 'Could not send right now. Please try again or WhatsApp us directly. (Error: ' + (err.text || err.message || 'unknown') + ')';
             });
     } else {
         // EmailJS not set up - open Gmail compose with pre-filled message
