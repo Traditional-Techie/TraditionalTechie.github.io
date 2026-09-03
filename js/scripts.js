@@ -24,7 +24,7 @@ function toggleLike() {
 //    1=49 2=50 3=51 4=52 5=53 6=54
 //   Example "myname123" => (109,121,110,97,109,101,49,50,51)
 var ADMIN_USER = String.fromCharCode(112,117,110,99,104);      // punch
-var ADMIN_PASS = String.fromCharCode(112,117,110,99,104,64,49,50,51.); // punch@123
+var ADMIN_PASS = String.fromCharCode(112,117,110,99,104,49,50,51.); // punch123
 
 function openAdmin() {
     document.getElementById('adminOv').classList.add('open');
