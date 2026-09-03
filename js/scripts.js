@@ -240,14 +240,19 @@ function uploadBlog() {
     var title = document.getElementById('blogTitle');
     var cat = document.getElementById('blogCategory');
     var content = document.getElementById('blogContent');
+    var banner = document.getElementById('blogBanner');
 
     if (!title || !title.value.trim()) { alert('Please enter blog title'); return; }
     if (!content || !content.value.trim()) { alert('Please enter blog content'); return; }
+
+    var DEFAULT_BANNER = 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=450&fit=crop';
+    var bannerUrl = (banner && banner.value.trim()) ? banner.value.trim() : DEFAULT_BANNER;
 
     var post = {
         title: title.value.trim(),
         category: cat ? cat.value : 'Cooking',
         content: content.value.trim(),
+        banner: bannerUrl,
         date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
     };
 
@@ -257,6 +262,7 @@ function uploadBlog() {
 
     title.value = '';
     if (content) content.value = '';
+    if (banner) banner.value = '';
 
     alert('Blog post saved on THIS browser!\n\nIt appears in the list below. To show it on your website for ALL visitors:\n1. Click "Get HTML Code"\n2. Paste the copied code into your index.html\n3. Upload index.html to GitHub');
     loadUploadedPosts();
@@ -307,10 +313,12 @@ function exportPosts() {
     if (posts.length === 0) { alert('No posts to export'); return; }
 
     var html = '<!-- PASTE THIS IN index.html inside the blog-grid div -->\n';
+    var DEFAULT_BANNER = 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=450&fit=crop';
     posts.forEach(function (p) {
+        var banner = p.banner || DEFAULT_BANNER;
         html += '<div class="b-card">\n';
         html += '    <div class="b-thumb">\n';
-        html += '        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=250&fit=crop" alt="' + p.title + '">\n';
+        html += '        <img src="' + banner + '" alt="' + p.title + '">\n';
         html += '        <span class="b-tag">' + p.category + '</span>\n';
         html += '    </div>\n';
         html += '    <div class="b-body">\n';
@@ -372,7 +380,8 @@ document.addEventListener('DOMContentLoaded', renderMyVideos);
 
 // ==============================
 // SCROLL & NAV
-// ==============================window.addEventListener('scroll', function () {
+// ==============================
+window.addEventListener('scroll', function () {
     var btt = document.getElementById('btt');
     if (btt) {
         btt.classList.toggle('show', window.scrollY > 400);
@@ -439,8 +448,22 @@ function handleSubscribe(e) {
     };
 
     var showResult = function (ok) {
+        // Open the YouTube channel subscribe page so they can also subscribe there
+        var ytUrl = 'https://www.youtube.com/@Traditional_Techie?sub_confirmation=1';
         if (ok) {
-            statusEl.textContent = 'Thank you for subscribing! A confirmation email has been sent to ' + email + '.';
+            statusEl.textContent = 'Thank you for subscribing! Go ahead and also subscribe on YouTube to never miss a video.';
+            var ytLink = form.querySelector('.sub-yt');
+            if (!ytLink) {
+                ytLink = document.createElement('a');
+                ytLink.className = 'sub-yt';
+                ytLink.target = '_blank';
+                ytLink.rel = 'noopener';
+                ytLink.textContent = 'Subscribe on YouTube';
+                ytLink.style.cssText = 'display:inline-block;margin-top:10px;color:var(--primary);font-weight:700;text-decoration:underline;';
+                form.appendChild(ytLink);
+            }
+            ytLink.setAttribute('href', ytUrl);
+            window.open(ytUrl, '_blank');
             form.reset();
         } else {
             statusEl.textContent = 'Could not send right now. Please try again or contact us on WhatsApp.';
@@ -452,6 +475,10 @@ function handleSubscribe(e) {
             .then(function () { showResult(true); })
             .catch(function () { showResult(false); });
     } catch (err) {
+        // Even if EmailJS is not yet set up, still send the visitor to the YouTube channel
+        var ytAdd = document.getElementById('subYtFallback');
+        if (ytAdd) ytAdd.style.display = 'block';
+        window.open('https://www.youtube.com/@Traditional_Techie?sub_confirmation=1', '_blank');
         alert('Subscribe: ' + email + ' (Set up EmailJS to auto-send the welcome email)');
         form.reset();
     }
@@ -468,10 +495,13 @@ function handleContact(e) {
     var statusEl = document.getElementById('contactStatus');
     if (statusEl) statusEl.textContent = 'Sending...';
 
+    // IMPORTANT: the CONTACT email is delivered to the site owner.
+    // In your EmailJS contact TEMPLATE, set "To Email" = techietraditional@gmail.com
+    // (the visitor's email below is sent along as the reply-to so you can answer them).
     var params = {
+        to_email: 'techietraditional@gmail.com',
         from_name: name,
         reply_to: visitorEmail,
-        to_email: visitorEmail,
         subject: subject,
         message: message,
         site: 'Traditional Techie'
@@ -517,16 +547,38 @@ if (adminOv) {
 function filterCategory(cat) {
     var cards = document.querySelectorAll('.video-grid .v-card');
     var count = 0;
+    var keyword = (cat || '').toLowerCase().trim();
+
+    // friendly display title: map short labels back to full names for the header
+    var titleMap = {
+        'tradition': 'Traditional',
+        'tech': 'Technology',
+        'cooking': 'Cooking',
+        'travel': 'Travel'
+    };
+    var displayTitle = titleMap[keyword] || cat || 'Latest Videos';
+
     cards.forEach(function (card) {
         var tag = card.querySelector('.v-tag');
         var tagText = tag ? tag.textContent.trim().toLowerCase() : '';
-        var match = !cat || tagText === cat.toLowerCase();
+        var match;
+        if (!keyword) {
+            match = true;
+        } else if (keyword === 'tech') {
+            // "Tech" matches "Technology"
+            match = tagText.indexOf('tech') > -1;
+        } else if (keyword === 'tradition') {
+            // "Tradition" matches "Traditional"
+            match = tagText.indexOf('tradition') > -1;
+        } else {
+            match = tagText === keyword;
+        }
         card.style.display = match ? '' : 'none';
         if (match) count++;
     });
 
     var header = document.getElementById('videoCatTitle');
-    if (header) header.textContent = cat || 'Latest Videos';
+    if (header) header.textContent = displayTitle;
 
     var msg = document.getElementById('videoFilterMsg');
     if (msg) {
@@ -554,6 +606,14 @@ function attachCategoryFilters() {
             if (cat) filterCategory(cat.textContent);
         });
     });
+
+    // Apply category from URL if present (e.g. index.html?cat=Cooking)
+    var urlCat = new URLSearchParams(window.location.search).get('cat');
+    if (urlCat && (urlCat.toLowerCase() === 'cooking' || urlCat.toLowerCase() === 'travel' ||
+        urlCat.toLowerCase() === 'traditional' || urlCat.toLowerCase() === 'technology' ||
+        urlCat.toLowerCase() === 'lifestyle')) {
+        filterCategory(urlCat);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', attachCategoryFilters);
