@@ -77,12 +77,14 @@ img { max-width:100%; display:block; }
 .btn-fill:hover { background:var(--primary-light); transform:translateY(-2px); box-shadow:0 6px 20px rgba(139,26,26,0.35); }
 .btn-ghost { background:transparent; color:var(--white); border:1.5px solid rgba(255,255,255,.25); }
 .btn-ghost:hover { border-color:var(--accent); color:var(--accent); }
-.hero-right { display:flex; gap:14px; }
+.hero-right { display:flex; gap:14px; flex-wrap:wrap; }
 .hero-card { flex:1; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:var(--radius-lg); padding:24px 18px; text-align:center; color:var(--white); backdrop-filter:blur(4px); transition:all .3s; text-decoration:none; cursor:pointer; }
 .hero-card:hover { background:rgba(255,255,255,0.08); border-color:var(--accent); transform:translateY(-4px); }
 .hero-card .icon { width:48px; height:48px; background:rgba(212,168,75,0.12); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:18px; color:var(--accent); }
 .hero-card h4 { font-size:14px; font-weight:600; margin-bottom:4px; }
 .hero-card span { font-size:11px; color:rgba(255,255,255,.5); }
+.qr-card .qr-img { width:74px; height:74px; background:var(--white); border-radius:6px; padding:5px; margin:0 auto 12px; display:block; }
+.qr-card span { color:rgba(255,255,255,.55); }
 
 /* ===== SECTION HEADERS ===== */
 .sec-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:35px; }
@@ -219,6 +221,10 @@ img { max-width:100%; display:block; }
 .sub-form input { flex:1; padding:13px 20px; border:none; border-radius:8px 0 0 8px; font-size:13px; font-family:inherit; }
 .sub-form button { padding:13px 24px; background:var(--accent); color:var(--primary-dark); border:none; border-radius:0 8px 8px 0; font-weight:700; font-size:13px; cursor:pointer; font-family:inherit; white-space:nowrap; }
 .sub-form button:hover { background:var(--accent-light); }
+.subscribe-qr { display:inline-flex; flex-direction:column; align-items:center; gap:8px; margin-top:26px; padding:14px 18px; background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow-md); text-decoration:none; transition:transform .3s ease; position:relative; color:var(--primary-dark); }
+.subscribe-qr:hover { transform:translateY(-3px); }
+.subscribe-qr img { width:120px; height:120px; display:block; }
+.subscribe-qr span { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--primary-dark); }
 
 /* ===== SHARE + LIKE ===== */
 .engage { padding:50px 0; }
